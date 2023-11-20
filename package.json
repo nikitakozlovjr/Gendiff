@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "commander": "^11.1.0"
+    "commander": "^11.1.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
   },
   "name": "gendiff",
   "description": "Консольная утилита, которая принимает две структуры данных в качестве входных данных и выводит их различия в ходе предыдущих изменений.",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "type": "module",
   "bin": {
     "gendiff": "bin/gendiff.js"
