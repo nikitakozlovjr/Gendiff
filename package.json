@@ -8,7 +8,7 @@
   "name": "gendiff",
   "description": "Консольная утилита, которая принимает две структуры данных в качестве входных данных и выводит их различия в ходе предыдущих изменений.",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "bin": {
     "gendiff": "bin/gendiff.js"
