@@ -19,6 +19,6 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: genDiff project check
-        uses: genDiff/project-action@release
+        uses: genDiff-check-action@release
         with:
           genDiff-id: ${{ secrets.GENDIFF_ID }}
