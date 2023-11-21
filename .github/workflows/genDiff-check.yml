@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: genDiff project check
+      - name: GenDiff project check
         uses: genDiff-check-action@release
         with:
           genDiff-id: ${{ secrets.GENDIFF_ID }}
