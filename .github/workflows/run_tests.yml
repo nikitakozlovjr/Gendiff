@@ -1,4 +1,4 @@
-name: autonom test
+name: tests
 
 on: push
 jobs:
@@ -9,4 +9,5 @@ jobs:
     steps: 
   
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - run: make test
