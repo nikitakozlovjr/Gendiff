@@ -1,8 +1,12 @@
 import parse from "./parser.js";
 import path from 'path';
 import _ from 'lodash';
+import { fileURLToPath } from 'url';
 
-const buldpath = (file) => path.resolve(file);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const buldpath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 const genDiff = (file1, file2) => {
     const filepath1 = buldpath(file1);
