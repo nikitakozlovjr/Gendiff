@@ -12,4 +12,5 @@ const correctFlatDiff = fs.readFileSync(getPath('expectFlatObj.txt'), 'utf-8');
 
 test('Reconciliation of flat JSON files', () => {
     expect(genDiff('../__fixtures__/file1.json', '../__fixtures__/file2.json')).toEqual(correctFlatDiff);
+    expect(genDiff('../__fixtures__/file1.yml', '../__fixtures__/file2.yml').toEqual(correctFlatDiff))
 })
