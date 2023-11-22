@@ -19,10 +19,10 @@ const getDiff = (data1, data2) => {
             }
         }
         if(_.isPlainObject(data1[key]) &&  _.isPlainObject(data2[key])) {
-            return {key: key, value: getDiff(data1[key], data2[key]), status: 'equal'}
+            return {key: key, children: getDiff(data1[key], data2[key]), status: 'nested'}
         }
 
-        return {key: key, value: data1[key], status: 'equal'}
+        return {key: key, value1: data1[key], status: 'equal'}
     })
 
     return diff;
