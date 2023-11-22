@@ -1,50 +1,41 @@
 import _ from 'lodash';
 
-const data = {
-  added: '+ ',
-  deleted: '- ',
-  space: '  ',
+const indent = (depth) => ' '.repeat(depth * 4 - 2);
+
+const stringify = (value, depth = 1) => {
+  if (!_.isObject(value)) {
+    return String(value);
+  }
+  const keys = Object.keys(value);
+  const result = keys.map((key) => `${indent(depth + 1)}  ${key}: ${stringify(value[key], depth + 1)}`);
+  return `{\n${result.join('\n')}\n  ${indent(depth)}}`;
 };
 
-function getSpace(depth, symbol) {
-  const space = '    ';
-  if (!symbol) {
-    return space.repeat(depth);
-  }
-  if (depth === 0 && !symbol) {
-    return '';
-  }
-  return `${space.repeat(depth)}  ${symbol}`;
-}
-
-function stringify(value, level) {
-  function iter(currentValue, depth) {
-    if (!_.isObject(currentValue)) {
-      return `${currentValue}`;
+const iter = (tree, depth = 1) => {
+  const result = tree.flatMap((node) => {
+    const {
+      key, type, value, oldValue, children,
+    } = node;
+    switch (type) {
+      case 'nested':
+        return `${indent(depth)}  ${key}: {\n${iter(children, depth + 1)}\n${indent(depth)}  }`;
+      case 'added':
+        return `${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
+      case 'removed':
+        return `${indent(depth)}- ${key}: ${stringify(value, depth)}`;
+      case 'updated':
+        return [
+          `${indent(depth)}- ${key}: ${stringify(oldValue, depth)}`,
+          `${indent(depth)}+ ${key}: ${stringify(value, depth)}`,
+        ];
+      case 'unchanged':
+        return `${indent(depth)}  ${key}: ${stringify(value, depth)}`;
+      default:
+        throw new Error(`Unknown type: ${type}`);
     }
-    const lines = Object.entries(currentValue).map(([key, val]) => `${getSpace(depth + 1, data.space)}${key}: ${iter(val, depth + 1)}`);
-    return ['{', ...lines, `${getSpace(depth + 1)}}`].join('\n');
-  }
-  return iter(value, level);
-}
+  });
+  return result.join('\n');
+};
+const formatStylish = (data) => `{\n${iter(data)}\n}`;
 
-export default function getStylish(tree) {
-  const iter = (object, depth) => {
-    const result = object.map((key) => {
-      switch (key.action) {
-        case 'deleted':
-          return `${getSpace(depth, data.deleted)}${key.key}: ${stringify(key.oldValue, depth)}`;
-        case 'added':
-          return `${getSpace(depth, data.added)}${key.key}: ${stringify(key.newValue, depth)}`;
-        case 'nested':
-          return `${getSpace(depth, data.space)}${key.key}: ${iter(key.children, depth + 1)}`;
-        case 'changed':
-          return [`${getSpace(depth, data.deleted)}${key.key}: ${stringify(key.oldValue, depth)}\n${getSpace(depth, data.added)}${key.key}: ${stringify(key.newValue, depth)}`];
-        default:
-          return `${getSpace(depth, data.space)}${key.key}: ${stringify(key.oldValue, depth)}`;
-      }
-    });
-    return ['{', ...result, `${getSpace(depth)}}`].join('\n');
-  };
-  return iter(tree, 0);
-}
+export default formatStylish;
