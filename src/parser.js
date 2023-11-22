@@ -12,7 +12,7 @@ const parse = {
 
 export default (filepath) => {
     const extension = path.extname(filepath).slice(1);
-    if(!extension.includes(supportedExtensions)) {
+    if(!supportedExtensions.includes(extension)) {
         throw new Error(`Данная утилита не поддерживает ${extension}-файлов`)
     }
 
