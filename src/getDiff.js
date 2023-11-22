@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default (data1, data2) => {
+const getDiff = (data1, data2) => {
     const keys1 = _.sortBy(Object.keys(data1));
     const keys2 = _.sortBy(Object.keys(data2));
 
@@ -13,13 +13,19 @@ export default (data1, data2) => {
         if(!Object.hasOwn(data2, key)) {
             return {key: key, value: data1[key], status: 'deleted'}
         }
-        if(data1[key] === data2[key]) {
-            return {key: key, value: data1[key], status: 'equal'}
+        if(typeof data1[key] !== 'object' || typeof data2[key] !== 'object') {
+            if(data1[key] !== data2[key]) {
+                return {key: key, value1: data1[key], value2: data2[key], status: 'unequal'}
+            }
         }
-        if(data1[key] !== data2[key]) {
-            return {key: key, value1: data1[key], value2: data2[key], status: 'unequal'}
+        if(_.isPlainObject(data1[key]) &&  _.isPlainObject(data2[key])) {
+            return {key: key, value: getDiff(data1[key], data2[key]), status: 'equal'}
         }
+
+        return {key: key, value: data1[key], status: 'equal'}
     })
 
     return diff;
 }
+
+export default getDiff;
