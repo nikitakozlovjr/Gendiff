@@ -1,0 +1,19 @@
+import stylish from './stylish.js';
+import json from './json.js';
+import plain from './plain.js';
+
+const supportedFormatters = ['stylish', 'json', 'plain']
+
+const formatters = {
+    stylish: stylish,
+    json: json,
+    plain: plain
+}
+
+export default (format, diff) => {
+    if(!supportedFormatters.includes(format)) {
+        throw new Error(`Формат вывода ${format} не поддерживается данной утилитой`)
+    }
+
+    return formatters[format](diff);
+}
