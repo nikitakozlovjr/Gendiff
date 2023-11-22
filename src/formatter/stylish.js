@@ -14,24 +14,24 @@ const stringify = (value, depth = 1) => {
 const iter = (tree, depth = 1) => {
   const result = tree.flatMap((node) => {
     const {
-      key, type, value, oldValue, children,
+      key, status, value1, value2, children,
     } = node;
-    switch (type) {
+    switch (status) {
       case 'nested':
         return `${indent(depth)}  ${key}: {\n${iter(children, depth + 1)}\n${indent(depth)}  }`;
       case 'added':
-        return `${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
-      case 'removed':
-        return `${indent(depth)}- ${key}: ${stringify(value, depth)}`;
-      case 'updated':
+        return `${indent(depth)}+ ${key}: ${stringify(value1, depth)}`;
+      case 'deleted':
+        return `${indent(depth)}- ${key}: ${stringify(value1, depth)}`;
+      case 'unequal':
         return [
-          `${indent(depth)}- ${key}: ${stringify(oldValue, depth)}`,
-          `${indent(depth)}+ ${key}: ${stringify(value, depth)}`,
+          `${indent(depth)}- ${key}: ${stringify(value2, depth)}`,
+          `${indent(depth)}+ ${key}: ${stringify(value1, depth)}`,
         ];
-      case 'unchanged':
-        return `${indent(depth)}  ${key}: ${stringify(value, depth)}`;
+      case 'equal':
+        return `${indent(depth)}  ${key}: ${stringify(value1, depth)}`;
       default:
-        throw new Error(`Unknown type: ${type}`);
+        throw new Error(`Unknown type: ${status}`);
     }
   });
   return result.join('\n');
