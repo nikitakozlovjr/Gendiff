@@ -20,7 +20,7 @@ const iter = (tree, depth = 1) => {
       case 'nested':
         return `${indent(depth)}  ${key}: {\n${iter(children, depth + 1)}\n${indent(depth)}  }`;
       case 'added':
-        return `${indent(depth)}+ ${key}: ${stringify(value1, depth)}`;
+        return `${indent(depth)}+ ${key}: ${stringify(value2, depth)}`;
       case 'deleted':
         return `${indent(depth)}- ${key}: ${stringify(value1, depth)}`;
       case 'unequal':
