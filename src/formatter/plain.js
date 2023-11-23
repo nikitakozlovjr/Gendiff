@@ -11,23 +11,23 @@ const checkValue = (value) => {
   const formatPlain = (diff) => {
     const makeFlat = (object, prefix = '') => {
       const result = object
-        .filter((node) => node.type !== 'unchanged')
+        .filter((node) => node.status !== 'equal')
         .map((node) => {
           const {
-            key, type, value, oldValue, children,
+            key, status, value1, value2, children,
           } = node;
           const prefKey = prefix + key;
-          switch (type) {
+          switch (status) {
             case 'nested':
               return makeFlat(children, `${prefKey}.`);
             case 'added':
-              return `Property '${prefKey}' was added with value: ${checkValue(value)}`;
-            case 'removed':
+              return `Property '${prefKey}' was added with value: ${checkValue(value1)}`;
+            case 'deleted':
               return `Property '${prefKey}' was removed`;
-            case 'updated':
-              return `Property '${prefKey}' was updated. From ${checkValue(oldValue)} to ${checkValue(value)}`;
+            case 'unequal':
+              return `Property '${prefKey}' was updated. From ${checkValue(value2)} to ${checkValue(value1)}`;
             default:
-              throw new Error(`Unknown type: ${type}`);
+              throw new Error(`Unknown type: ${status}`);
           }
         });
   
