@@ -25,8 +25,8 @@ const iter = (tree, depth = 1) => {
         return `${indent(depth)}- ${key}: ${stringify(value1, depth)}`;
       case 'unequal':
         return [
-          `${indent(depth)}- ${key}: ${stringify(value2, depth)}`,
-          `${indent(depth)}+ ${key}: ${stringify(value1, depth)}`,
+          `${indent(depth)}- ${key}: ${stringify(value1, depth)}`,
+          `${indent(depth)}+ ${key}: ${stringify(value2, depth)}`,
         ];
       case 'equal':
         return `${indent(depth)}  ${key}: ${stringify(value1, depth)}`;
