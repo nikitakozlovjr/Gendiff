@@ -1,4 +1,3 @@
-import fs from 'fs';
 import fsp from 'fs/promises'
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -11,9 +10,13 @@ const getPath = (filename) => path.join(__dirname, '..', '__fixtures__', filenam
 // -------------------- Получение данных из файлов для сверки результата -------------------
 const reconciliationFile = ['expectFlatObj.txt', 'expectNestedObj.txt', 'expectPlainFormat.txt'];
 const promises = reconciliationFile.map((filename) => fsp.readFile(getPath(filename), 'utf-8'));
-const [expectFlatObj, expectNestedObj, expectPlainFormat] = await Promise.all(promises);
 // -----------------------------------------------------------------------------------------
 
+// ----------- Переменные хранят правильные данные, использующиеся для проверки ------------
+const extname = ['json', 'yml'];
+const format = ['stylish', 'palin'];
+const [expectFlatObj, expectNestedObj, expectPlainFormat] = await Promise.all(promises);
+// -----------------------------------------------------------------------------------------
 
 test('Reconciliation of flat files', () => {
     expect(genDiff('file1.json', 'file2.json')).toEqual(expectFlatObj);
