@@ -13,7 +13,7 @@ const parse = {
 export default (filepath) => {
     const extension = path.extname(filepath).slice(1);
     if(!supportedExtensions.includes(extension)) {
-        throw new Error(`Данная утилита не поддерживает ${extension}-файлов`)
+        throw new Error(`Данная утилита не поддерживает ${extension}-файлы`)
     }
 
     const content = fs.readFileSync(filepath, 'utf-8');
