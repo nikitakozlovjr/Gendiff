@@ -21,11 +21,11 @@ const checkValue = (value) => {
             case 'nested':
               return makeFlat(children, `${prefKey}.`);
             case 'added':
-              return `Property '${prefKey}' was added with value: ${checkValue(value1)}`;
+              return `Property '${prefKey}' was added with value: ${checkValue(value2)}`;
             case 'deleted':
               return `Property '${prefKey}' was removed`;
             case 'unequal':
-              return `Property '${prefKey}' was updated. From ${checkValue(value2)} to ${checkValue(value1)}`;
+              return `Property '${prefKey}' was updated. From ${checkValue(value1)} to ${checkValue(value2)}`;
             default:
               throw new Error(`Unknown type: ${status}`);
           }
