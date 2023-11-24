@@ -13,8 +13,8 @@ const promises = reconciliationFile.map((filename) => fsp.readFile(getPath(filen
 // -----------------------------------------------------------------------------------------
 
 // ----------- Переменные хранят правильные данные, использующиеся для проверки ------------
-const extname = ['json', 'yml'];
-const format = ['stylish', 'palin'];
+const extentions = ['json', 'yml'];
+const formats = ['stylish', 'palin'];
 const [expectFlatObj, expectNestedObj, expectPlainFormat] = await Promise.all(promises);
 // -----------------------------------------------------------------------------------------
 
