@@ -9,4 +9,4 @@ jobs:
       - run: npm install
       - run: npm run lint
       - name: run tests
-        run: npm test 
+        run: npx jest 
