@@ -5,4 +5,4 @@ publish:
 	npm publish --dry-run 
 
 test:
-	npx jest
+	npm test
