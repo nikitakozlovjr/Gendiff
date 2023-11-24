@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - run: npm install
+      - run: make install
       - name: run tests
-        run: npx jest  
+        run: make test  
       
