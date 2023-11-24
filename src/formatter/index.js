@@ -12,7 +12,7 @@ const formatters = {
 
 export default (format, diff) => {
     if(!supportedFormatters.includes(format)) {
-        throw new Error(`Формат вывода ${format} не поддерживается данной утилитой`)
+        throw new Error(`Выбран неподдерживаемый формат вывода`)
     }
 
     return formatters[format](diff);
