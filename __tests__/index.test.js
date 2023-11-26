@@ -2,6 +2,7 @@ import fsp from 'fs/promises'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
+import { describe } from 'yargs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,6 @@ const promises = reconciliationFile.map((filename) => fsp.readFile(getPath(filen
 
 // ----------- Переменные хранят правильные данные, использующиеся для проверки ------------
 const extentions = ['json', 'yml'];
-const formats = ['stylish', 'palin', 'json'];
 const [expectFlatObj, expectNestedObj, expectPlainFormat] = await Promise.all(promises);
 // -----------------------------------------------------------------------------------------
 
@@ -37,3 +37,12 @@ describe('Correct flat file comparison', () => {
       expect(genDiff(filepath1, filepath2, 'stylish')).toEqual(expectNestedObj);
     })
   });
+
+  describe('Correct plain of formatters', () => {
+    test.each(extentions)('extention %s', (extention) => {
+      const filepath3 = getPath(`file3.${extention}`);
+      const filepath4 = getPath(`file4.${extention}`);
+
+      expect(genDiff(filepath3, filepath4, 'plain')).toEqual(expectPlainFormat);
+    })
+  })
