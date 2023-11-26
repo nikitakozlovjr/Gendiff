@@ -63,3 +63,14 @@ describe('Correct flat file comparison', () => {
       expect(() => genDiff(errFilepath1, errFilepath2)).toThrow('Неподдерживаемый формат файла');
     })
   })
+
+  describe('Working on an unsupported format', () => {
+    test('false format', () => {
+      const errFormat = 'road'
+
+      const filepath1 = getPath(`file1.json`);
+      const filepath2 = getPath(`file2.json`);
+
+      expect(() => genDiff(filepath1, filepath2, errFormat)).toThrow('Выбран неподдерживаемый формат вывода');
+    })
+  })
