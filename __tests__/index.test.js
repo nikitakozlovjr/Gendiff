@@ -54,3 +54,12 @@ describe('Correct flat file comparison', () => {
       expect(genDiff(filepath3, filepath4, 'json')).toEqual(expectJsonFormat);
     })
   })
+
+  describe('Correct handling of parser errors', () => {
+    test('flase extension', () => {
+      const errFilepath1 = getPath(`file1.false`);
+      const errFilepath2 = getPath(`file2.false`);
+
+      expect(() => genDiff(errFilepath1, errFilepath2)).toThrow('Неподдерживаемый формат файла');
+    })
+  })
