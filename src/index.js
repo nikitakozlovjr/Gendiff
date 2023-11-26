@@ -1,13 +1,9 @@
 import parse from "./parser.js";
 import path from 'path';
 import getDiff from './getDiff.js';
-import { fileURLToPath } from 'url';
 import formatter from './formatter/index.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const buldpath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const buldpath = (filepath) => path.resolve(process.cwd(), filepath).trim();
 
 const genDiff = (file1, file2, format = 'stylish') => {
     const filepath1 = buldpath(file1);
