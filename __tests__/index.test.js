@@ -2,20 +2,19 @@ import fsp from 'fs/promises'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
-import { describe } from 'yargs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 // -------------------- Получение данных из файлов для сверки результата -------------------
-const reconciliationFile = ['expectFlatObj.txt', 'expectNestedObj.txt', 'expectPlainFormat.txt'];
+const reconciliationFile = ['expectFlatObj.txt', 'expectNestedObj.txt', 'expectPlainFormat.txt', 'expectJsonFormat.txt'];
 const promises = reconciliationFile.map((filename) => fsp.readFile(getPath(filename), 'utf-8'));
 // -----------------------------------------------------------------------------------------
 
 // ----------- Переменные хранят правильные данные, использующиеся для проверки ------------
 const extentions = ['json', 'yml'];
-const [expectFlatObj, expectNestedObj, expectPlainFormat] = await Promise.all(promises);
+const [expectFlatObj, expectNestedObj, expectPlainFormat, expectJsonFormat] = await Promise.all(promises);
 // -----------------------------------------------------------------------------------------
 
 describe('Correct flat file comparison', () => {
@@ -44,5 +43,14 @@ describe('Correct flat file comparison', () => {
       const filepath4 = getPath(`file4.${extention}`);
 
       expect(genDiff(filepath3, filepath4, 'plain')).toEqual(expectPlainFormat);
+    })
+  })
+
+  describe('Correct json of formatters', () => {
+    test.each(extentions)('extention %s', (extention) => {
+      const filepath3 = getPath(`file3.${extention}`);
+      const filepath4 = getPath(`file4.${extention}`);
+      
+      expect(genDiff(filepath3, filepath4, 'json')).toEqual(expectJsonFormat);
     })
   })
